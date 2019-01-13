@@ -1,0 +1,46 @@
+body {
+    text-align: center;
+}
+
+#main {
+    width: 50vw;
+    margin: auto;
+    width: 50%;
+}
+
+input {
+    text-align: center;
+}
+
+#actions,
+#recordInfos,
+#timerDiv {
+    margin-top: 3vh;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+#question {
+    color: red;
+}
+
+#stats,
+.w3-btn {
+    font-size: 24px;
+}
+
+#statsInfos {
+    font-size: 28px;
+}
+
+#listInfos {
+    font-size: 34px;
+    margin-bottom: -2vh;
+}
+
+#recordInfos {
+    font-size: 22px;
+    margin-bottom: 2vh;
+}

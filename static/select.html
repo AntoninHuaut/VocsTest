@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>VocsTest : Sélection</title>
+    <link rel="icon" type="image/png" href="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/56/95/b8/5695b8cc-ef72-ba8b-cddc-ef8950e94912/source/256x256bb.jpg" />
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+    <link rel="
+        stylesheet" href="/css/select.css" />
+    <link rel="stylesheet" href="/css/toastr.min.css" />
+</head>
+
+<body>
+    <div id="main">
+        <h1>Sélectionner les listes de mots <span class="italic title">(ref mots anglais)</span> :</h1>
+
+        <div id="btnList">
+
+        </div>
+
+        <div id="typeExo">
+            <h2 id="infosTypeExo">Type d'exercice :</h2>
+            <div class="pretty p-icon p-round">
+                <input type="radio" class="radioTypeExo" name="typeExoRad" onchange="updateType(0, 0)" />
+                <div class="state p-info">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>QCM</label>
+                </div>
+            </div>
+            <div class="pretty p-icon p-round">
+                <input type="radio" class="radioTypeExo" name="typeExoRad" onchange="updateType(0, 1)" />
+                <div class="state p-info">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>Time attack</label>
+                </div>
+            </div>
+        </div>
+
+        <!--<div id="nbQuestion">
+            <h3 id="infosNbQuestion">Nombre de mots :</h3>
+            <input id="nbQuestionInput" class="w3-input" type="number" name="nbQuestionInput" value="20" min="1">
+        </div>-->
+
+        <div id="typeTrad">
+            <h2 id="infosTypeTrad">Type de traduction :</h2>
+            <div class="pretty p-icon p-round">
+                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(1, 0)" />
+                <div class="state p-info">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>FR <span class="arrow">⇒</span> EN</label>
+                </div>
+            </div>
+            <div class="pretty p-icon p-round">
+                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(1, 1)" />
+                <div class="state p-info">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>FR <span class="arrow">⇐</span> EN</label>
+                </div>
+            </div>
+            <div class="pretty p-icon p-round">
+                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(1, 2)" />
+                <div class="state p-info">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>FR <span class="arrow">⇔</span> EN</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/js/cookie.js"></script>
+<script src="/js/select.js"></script>
+
+</html>

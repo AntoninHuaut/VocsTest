@@ -1,0 +1,58 @@
+body {
+    text-align: center;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.w3-btn {
+    font-size: 26px;
+    display: block;
+    margin-bottom: 0.5vh;
+}
+
+#btnList {
+    width: 20vw;
+    margin: auto;
+    margin-bottom: 2vh;
+}
+
+.separateur {
+    margin-bottom: 2.5vh;
+}
+
+#infosTypeTrad, #infosTypeExo {
+    font-size: 30px;
+}
+
+#nbQuestion {
+    display: none;
+}
+
+#nbQuestionInput {
+    margin-left: 47.5vw;
+    width: 5%;
+}
+
+#typeTrad, #typeExo {
+    margin-top: 3vh;
+}
+
+#typeTrad label, #typeExo label {
+    font-size: 18px;
+    display: block;
+}
+
+.arrow {
+    font-weight: bold;
+    color: rgb(255, 0, 0);
+}
+
+#doubleArrow {
+    font-size: 18px;
+}

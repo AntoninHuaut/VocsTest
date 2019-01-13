@@ -1,0 +1,9 @@
+{
+    "port": 3004,
+    "sql": {
+        "host": "",
+        "database": "",
+        "user": "",
+        "password": ""
+    }
+};

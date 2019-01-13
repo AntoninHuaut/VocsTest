@@ -1,0 +1,9 @@
+.vscode/
+SQL/*
+node_modules/
+config.json
+package-lock.json
+
+
+
+!SQL/*.sql

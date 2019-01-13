@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>VocsTest : Time Attack</title>
+    <link rel="icon" type="image/png" href="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/56/95/b8/5695b8cc-ef72-ba8b-cddc-ef8950e94912/source/256x256bb.jpg" />
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/ta.css" />
+    <link rel="stylesheet" href="/css/toastr.min.css" />
+</head>
+
+<body>
+    <div id="main">
+        <h1>Quelle est la traduction de <br /><span id="question"></span></h1>
+
+        <input id="inputText" class="w3-input" onkeypress="update(this, 0, event)" placeholder="Ecrivez la traduction du mot "
+            type="text">
+
+        <div id="timerDiv">
+            <h1 id="timer"></h1>
+        </div>
+    </div>
+
+    <div id="actions">
+        <h1 id="listInfos"></h1>
+        <p id="stats"><span id="statsInfos">Stats sur <span id="total"></span> questions:</span>
+            <br />&#160;<span style="color: green;">&#10004</span> : <span id="success"></span>
+            <br /><span style="color: red;">&#10006</span> : <span id="fail"></span>
+        </p>
+        <div id="recordInfos">Record actuel: <span id="record">0</span></div>
+        <button id="retour" onclick="update(this, 3)" class="w3-btn w3-green">Retour</button>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/js/cookie.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="/js/base.js"></script>
+<script src="/js/easytimer.js"></script>
+<script src="/js/ta.js"></script>
+
+</html>
