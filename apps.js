@@ -18,7 +18,6 @@ const con = mysql.createConnection({
     password: config.sql.password
 });
 
-const tableName = ["words", "type"];
 const app = express();
 
 var words;
@@ -40,68 +39,59 @@ function reloadWords() {
 
         let tempWords = {};
 
-        con.query("SELECT * FROM ?? JOIN ?? using(type)", [tableName[0], tableName[1]], function (err, result, fields) {
+        let resultExtra;
+        con.query("select * from words_type", function (err, result, fields) {
             if (err) throw err;
-            for (let i = 0; i < result.length; i++) {
-                let convertId = parseInt(result[i].id - 1).toString();
-                if (!tempWords[result[i].type]) {
-                    initSub(tempWords, result[i].type);
-                    tempWords[result[i].type].infos.lettres = result[i].lettres;
-                    tempWords[result[i].type].infos.nom = result[i].nom;
-                }
+            resultExtra = result;
+        });
 
-                tempWords[result[i].type].data[convertId] = [];
-                tempWords[result[i].type].data[convertId].push(result[i].en, result[i].fr);
-            }
-
-            // Creating 0-1-2 lists from others
-            for (let idList = 0; idList < 3; idList++) {
-                initSub(tempWords, idList);
-
-                let idsList = Object.keys(tempWords);
-                idsList.splice(0, idList + 1);
-
-                if (idList == 1)
-                    idsList.splice(2, 3);
-                else if (idList == 2)
-                    idsList.splice(0, 2);
-
-                for (let i = 0; i < idsList.length; i++) {
-                    if (i == 0)
-                        tempWords[idList].data = JSON.parse(JSON.stringify(tempWords[idsList[i]].data));
-                    else {
-                        let idSemestre = idsList[i];
-                        let keys = Object.keys(tempWords[idSemestre].data);
-
-                        let index = parseInt(keys.find(function (element) {
-                            return element;
-                        }));
-
-                        for (let j = index; j < (index + keys.length); j++)
-                            tempWords[idList].data[j] = tempWords[idSemestre].data[j];
-                    }
-                }
-            }
-
-            for (let i = 0; i < 7; i++) {
-                tempWords[i].infos.min = parseInt(Object.keys(tempWords[i].data).find(function (element) {
-                    return element;
-                }));
-
-                tempWords[i].infos.max = tempWords[i].infos.min + Object.keys(tempWords[i].data).length - 1;
-            }
-
-            con.query("SELECT * FROM ?? where type < 3", [tableName[1]], function (err, result, fields) {
+        con.query("(select '.1A' as data_type, min(id) as value1, max(id) as value2 from words where type = 3 or type = 4 group by '1A') union " +
+            "(select '.2A', min(id), max(id) from words where type = 5 or type = 6 group by '2A') union " +
+            "(select type, lettres, nom from type where type < 3) union " +
+            "(select type, id, null from words_type group by type) order by data_type asc",
+            function (err, result, fields) {
                 if (err) throw err;
 
-                for (let i = 0; i < result.length; i++) {
-                    tempWords[result[i].type].infos.lettres = result[i].lettres;
-                    tempWords[result[i].type].infos.nom = result[i].nom;
+                let limits = {
+                    '0': [result[0].value1, result[1].value2],
+                    '1': [result[0].value1, result[0].value2],
+                    '2': [result[1].value1, result[1].value2]
+                }
+
+                for (let type = 0; type < 7; type++) {
+                    if (type > 2) {
+                        limits[type] = [];
+                        let max = type == 6 ? result[1].value2 : result[type + 3].value1 - 1;
+                        limits[type].push(result[type + 2].value1, max);
+                    }
+
+                    for (let motGet = 0; motGet < resultExtra.length; motGet++) {
+                        if (motGet + 1 < limits[type][0] || motGet + 1 > limits[type][1])
+                            continue;
+
+                        else {
+                            if (!tempWords[type]) {
+                                initSub(tempWords, type);
+                                tempWords[type].infos.lettres = type < 3 ? result[type + 2].value1 : resultExtra[motGet].lettres;
+                                tempWords[type].infos.nom = type < 3 ? result[type + 2].value2 : resultExtra[motGet].nom;
+                            }
+
+                            tempWords[type].data[motGet] = [];
+                            tempWords[type].data[motGet].push(resultExtra[motGet].en, resultExtra[motGet].fr);
+                        }
+                    }
+                }
+
+                for (let i = 0; i < 7; i++) {
+                    tempWords[i].infos.min = parseInt(Object.keys(tempWords[i].data).find(function (element) {
+                        return element;
+                    }));
+
+                    tempWords[i].infos.max = tempWords[i].infos.min + Object.keys(tempWords[i].data).length - 1;
                 }
             });
 
-            words = tempWords;
-        });
+        words = tempWords;
     });
 }
 
