@@ -26,7 +26,7 @@ body {
     margin-bottom: 2.5vh;
 }
 
-#infosTypeTrad, #infosTypeExo {
+.infosType {
     font-size: 30px;
 }
 
@@ -39,11 +39,11 @@ body {
     width: 5%;
 }
 
-#typeTrad, #typeExo {
+.type {
     margin-top: 3vh;
 }
 
-#typeTrad label, #typeExo label {
+.type label {
     font-size: 18px;
     display: block;
 }

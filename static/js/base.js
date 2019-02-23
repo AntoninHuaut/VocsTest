@@ -1,4 +1,4 @@
-function showToast(title, type, timeout, text, callFunction) {
+function showToast(title, type, timeout, text, callFunction, idQuestion) {
     toastr.options = {
         "positionClass": "toast-top-center",
         "preventDuplicates": true,
@@ -6,7 +6,7 @@ function showToast(title, type, timeout, text, callFunction) {
         "timeOut": timeout,
         "onHidden": function () {
             if (callFunction)
-                changeMot(null);
+                changeMot(idQuestion);
         }
     }
 
@@ -16,6 +16,9 @@ function showToast(title, type, timeout, text, callFunction) {
         toastr.error(text, title);
 }
 
+function getNextIDQ(typeList, idQuestion) {
+    return typeList == 0 ? null : idQuestion + 1;
+}
 
 function activeElement(b) {
     [$("#list"), $(".w3-btn"), $("#inputText")].forEach(function (get) {

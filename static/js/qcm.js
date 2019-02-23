@@ -4,15 +4,17 @@ var idList;
 var idQuestion = -1;
 var typeQuestion;
 
+var typeList;
 var typeTrad;
 var trads;
 
 $('document').ready(function () {
     let baseInfosC = getCookie('baseInfos');
 
-    if (baseInfosC && getCookie('qcmInfos')) {
+    if (basicCookieIsValid(baseInfosC) && getCookie('qcmInfos')) {
         let baseInfos = parseObjectFromCookie(baseInfosC);
         idList = baseInfos.idList;
+        typeList = baseInfos.typeList;
         typeTrad = baseInfos.typeTrad;
 
         updateStats();
@@ -41,6 +43,9 @@ function start() {
 
 function selectMot() {
     if (idQuestion < json.infos.min || idQuestion > json.infos.max) {
+        if (idQuestion != -1)
+            showToast('Vous avez terminé la liste Retour au début', 1, 2500, null, false);
+
         changeMot(null)
 
         return;
@@ -76,16 +81,16 @@ function update(element, index) {
 
         if (value == trads[1 - typeQuestion]) {
             qcmInfos.success += 1;
-            showToast('Bonne réponse !', 1, 1000, null, true);
+            showToast('Bonne réponse !', 1, 1000, null, true, getNextIDQ(typeList, idQuestion));
         } else {
             qcmInfos.fail += 1;
-            showToast('La réponse était:', 2, 2000, trads[1 - typeQuestion], true);
+            showToast('La réponse était:', 2, 2000, trads[1 - typeQuestion], true, getNextIDQ(typeList, idQuestion));
         }
 
         createCookie("qcmInfos", qcmInfos);
         updateStats();
     } else if (index == 1) {
-        changeMot(null);
+        getNextIDQ(typeList, idQuestion);
     } else if (index == 2) {
         qcmInfos.success = 0;
         qcmInfos.fail = 0;
@@ -130,10 +135,14 @@ function setValues(data) {
 }
 
 function changeMot(number) {
-    if (number == null)
-        do
-            number = getRandomQID(json);
-        while (number == idQuestion)
+    if (number == null) {
+        if (typeList == 0)
+            do
+                number = getRandomQID(json);
+            while (number == idQuestion)
+        else if (typeList == 1)
+            number = json.infos.min;
+    }
 
     idQuestion = number;
 

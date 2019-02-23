@@ -4,6 +4,7 @@ var idList;
 var idQuestion = -1;
 var typeQuestion;
 
+var typeList;
 var typeTrad;
 var trads;
 
@@ -13,9 +14,10 @@ var hasStart = false;
 $('document').ready(function () {
     let baseInfosC = getCookie('baseInfos');
 
-    if (baseInfosC && getCookie('taInfos')) {
+    if (basicCookieIsValid(baseInfosC) && getCookie('taInfos')) {
         let baseInfos = parseObjectFromCookie(baseInfosC);
         idList = baseInfos.idList;
+        typeList = baseInfos.typeList;
         typeTrad = baseInfos.typeTrad;
 
         timer.addEventListener('secondsUpdated', function (e) {
@@ -61,7 +63,7 @@ function start() {
             json = data;
             $('#listInfos').text(json.infos.nom + " (" + json.infos.lettres + ")");
 
-            countDown(5);
+            countDown(3);
         });
     else
         selectMot();
@@ -71,8 +73,10 @@ function start() {
 
 function selectMot() {
     if (idQuestion < json.infos.min || idQuestion > json.infos.max) {
-        changeMot(null)
+        if (idQuestion != -1)
+            showToast('Vous avez terminé la liste Retour au début', 1, 2500, null, false);
 
+        changeMot(null);
         return;
     }
 
@@ -109,7 +113,7 @@ function update(element, index, e) {
         element.value = '';
         createCookie("taInfos", taInfos);
         updateStats();
-        changeMot(null);
+        changeMot(getNextIDQ(typeList, idQuestion));
         element.focus();
     } else if (index == 3)
         redirectBase();
@@ -132,10 +136,14 @@ function verifMot(value) {
 }
 
 function changeMot(number) {
-    if (number == null)
-        do
-            number = getRandomQID(json);
-        while (number == idQuestion)
+    if (number == null) {
+        if (typeList == 0)
+            do
+                number = getRandomQID(json);
+            while (number == idQuestion)
+        else if (typeList == 1)
+            number = json.infos.min;
+    }
 
     idQuestion = number;
 

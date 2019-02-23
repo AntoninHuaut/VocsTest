@@ -10,6 +10,7 @@ var data = [
 
 var color = ["red", "orange", "amber", "khaki", "lime", "light-green", "green"];
 var typeExo = 0;
+var typeList = 0;
 var typeTrad = 2;
 
 $('document').ready(function () {
@@ -20,30 +21,29 @@ $('document').ready(function () {
 
     let baseInfosC = getCookie('baseInfos');
 
-    if (baseInfosC) {
+    if (basicCookieIsValid(baseInfosC)) {
         let baseInfos = parseObjectFromCookie(baseInfosC)
         typeTrad = baseInfos.typeTrad;
+        typeList = baseInfos.typeList;
         updateType(0, baseInfos.typeExo);
     }
 
     $('.radioTypeTrad')[typeTrad].checked = true;
+    $('.radioTypeList')[typeList].checked = true;
     $('.radioTypeExo')[typeExo].checked = true;
 });
 
 function updateType(type, index) {
-    if (type == 0) {
+    if (type == 0)
         typeExo = index;
-
-        /*if (index == 0)
-            $("#nbQuestion")[0].style.display = "none";
-        else if (index == 1)
-            $("#nbQuestion")[0].style.display = "block";*/
-    } else if (type == 1)
+    else if (type == 1)
+        typeList = index;
+    else if (type == 2)
         typeTrad = index;
 }
 
 function startMots(idList) {
-    let baseJson = JSON.parse('{"idList": ' + idList + ', "typeTrad": ' + typeTrad + ', "typeExo": ' + typeExo + '}');
+    let baseJson = JSON.parse('{"idList": ' + idList + ', "typeTrad": ' + typeTrad + ', "typeList": ' + typeList + ', "typeExo": ' + typeExo + '}');
     createCookie("baseInfos", baseJson);
 
     let taInfosC = getCookie('taInfos');

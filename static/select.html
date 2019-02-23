@@ -21,8 +21,8 @@
 
         </div>
 
-        <div id="typeExo">
-            <h2 id="infosTypeExo">Type d'exercice :</h2>
+        <div class="type">
+            <h2 class="infosType">Type d'exercice :</h2>
             <div class="pretty p-icon p-round">
                 <input type="radio" class="radioTypeExo" name="typeExoRad" onchange="updateType(0, 0)" />
                 <div class="state p-info">
@@ -39,29 +39,42 @@
             </div>
         </div>
 
-        <!--<div id="nbQuestion">
-            <h3 id="infosNbQuestion">Nombre de mots :</h3>
-            <input id="nbQuestionInput" class="w3-input" type="number" name="nbQuestionInput" value="20" min="1">
-        </div>-->
-
-        <div id="typeTrad">
-            <h2 id="infosTypeTrad">Type de traduction :</h2>
+        <div class="type">
+            <h2 class="infosType">Type de liste :</h2>
             <div class="pretty p-icon p-round">
-                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(1, 0)" />
+                <input type="radio" class="radioTypeList" name="typeListRad" onchange="updateType(1, 0)" />
+                <div class="state p-info">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>Aléatoire</label>
+                </div>
+            </div>
+            <div class="pretty p-icon p-round">
+                <input type="radio" class="radioTypeList" name="typeListRad" onchange="updateType(1, 1)" />
+                <div class="state p-info">
+                    <i class="icon mdi mdi-check"></i>
+                    <label>Mot à la suite</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="type">
+            <h2 class="infosType">Type de traduction :</h2>
+            <div class="pretty p-icon p-round">
+                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(2, 0)" />
                 <div class="state p-info">
                     <i class="icon mdi mdi-check"></i>
                     <label>FR <span class="arrow">⇒</span> EN</label>
                 </div>
             </div>
             <div class="pretty p-icon p-round">
-                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(1, 1)" />
+                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(2, 1)" />
                 <div class="state p-info">
                     <i class="icon mdi mdi-check"></i>
                     <label>FR <span class="arrow">⇐</span> EN</label>
                 </div>
             </div>
             <div class="pretty p-icon p-round">
-                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(1, 2)" />
+                <input type="radio" class="radioTypeTrad" name="typeTradRad" onchange="updateType(2, 2)" />
                 <div class="state p-info">
                     <i class="icon mdi mdi-check"></i>
                     <label>FR <span class="arrow">⇔</span> EN</label>
