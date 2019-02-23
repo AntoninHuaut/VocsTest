@@ -90,7 +90,7 @@ function update(element, index) {
         createCookie("qcmInfos", qcmInfos);
         updateStats();
     } else if (index == 1) {
-        getNextIDQ(typeList, idQuestion);
+        changeMot(getNextIDQ(typeList, idQuestion));
     } else if (index == 2) {
         qcmInfos.success = 0;
         qcmInfos.fail = 0;
