@@ -12,6 +12,7 @@ var color = ["red", "orange", "amber", "khaki", "lime", "light-green", "green"];
 var typeExo = 0;
 var typeList = 0;
 var typeTrad = 2;
+var activeSound = true;
 
 $('document').ready(function () {
     let btnList = $('#btnList');
@@ -25,6 +26,7 @@ $('document').ready(function () {
         let baseInfos = parseObjectFromCookie(baseInfosC)
         typeTrad = baseInfos.typeTrad;
         typeList = baseInfos.typeList;
+        activeSound = baseInfos.activeSound;
         updateType(0, baseInfos.typeExo);
     }
 
@@ -43,7 +45,7 @@ function updateType(type, index) {
 }
 
 function startMots(idList) {
-    let baseJson = JSON.parse('{"idList": ' + idList + ', "typeTrad": ' + typeTrad + ', "typeList": ' + typeList + ', "typeExo": ' + typeExo + '}');
+    let baseJson = JSON.parse('{"idList": ' + idList + ', "typeTrad": ' + typeTrad + ', "typeList": ' + typeList + ', "typeExo": ' + typeExo + ', "activeSound": ' + activeSound + '}');
     createCookie("baseInfos", baseJson);
 
     let taInfosC = getCookie('taInfos');

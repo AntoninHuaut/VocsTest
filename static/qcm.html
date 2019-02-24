@@ -6,12 +6,18 @@
     <title>VocsTest : QCM</title>
     <link rel="icon" type="image/png" href="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/56/95/b8/5695b8cc-ef72-ba8b-cddc-ef8950e94912/source/256x256bb.jpg" />
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/qcm.css" />
     <link rel="stylesheet" href="/css/toastr.min.css" />
 </head>
 
 <body>
+    <div id="soundControl">
+        <i style="cursor: pointer;" onclick="changeSound(this)" class="fas fa-volume-up"></i>
+    </div>
     <div id="main">
         <h1>Quelle est la traduction de <br /><span id="question"></span></h1>
 
@@ -32,9 +38,9 @@
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="/js/cookie.js"></script>
+<script src="/js/lib/cookie.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="/js/base.js"></script>
-<script src="/js/qcm.js"></script>
+<script src="/js/exo/base.js"></script>
+<script src="/js/exo/qcm.js"></script>
 
 </html>

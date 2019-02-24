@@ -1,0 +1,38 @@
+body {
+    text-align: center;
+}
+
+#main {
+    width: 50vw;
+    margin: auto;
+    width: 50%;
+}
+
+#listInfos {
+    font-size: 34px;
+    margin-bottom: -2vh;
+}
+
+#statsInfos {
+    font-size: 28px;
+}
+
+select, #stats, .w3-btn {
+    font-size: 24px;
+}
+
+#question {
+    color: red;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+#soundControl {
+    margin-top: -1.5vh;
+    margin-left: 0.5vw;
+    text-align: left;
+    font-size: 48px;
+    float: left;
+}

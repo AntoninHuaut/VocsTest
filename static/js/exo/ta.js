@@ -1,33 +1,15 @@
-var json;
+var typeExo = 'ta';
 
-var idList;
-var idQuestion = -1;
-var typeQuestion;
-
-var typeList;
-var typeTrad;
-var trads;
-
-var timer = new Timer();
+var timer = new easytimer.Timer();
 var hasStart = false;
 
 $('document').ready(function () {
-    let baseInfosC = getCookie('baseInfos');
-
-    if (basicCookieIsValid(baseInfosC) && getCookie('taInfos')) {
-        let baseInfos = parseObjectFromCookie(baseInfosC);
-        idList = baseInfos.idList;
-        typeList = baseInfos.typeList;
-        typeTrad = baseInfos.typeTrad;
-
+    if (isOKDocReady(typeExo)) {
         timer.addEventListener('secondsUpdated', function (e) {
             $('#timer').html(timer.getTimeValues().toString());
         });
-
-        updateStats();
-        start();
-    } else
-        redirectBase();
+        start(typeExo + '-first');
+    }
 });
 
 function countDown(countVal) {
@@ -35,7 +17,7 @@ function countDown(countVal) {
 
     setTimeout(function () {
         if (countVal == 0) {
-            start();
+            start(typeExo);
             timer.start({
                 countdown: true,
                 startValues: {
@@ -46,43 +28,7 @@ function countDown(countVal) {
             hasStart = true;
         } else
             countDown(countVal - 1);
-    }, countVal == 0 ? 0 : 1000);
-}
-
-function updateStats() {
-    let taInfos = parseObjectFromCookie(getCookie('taInfos'));
-    $('#success').text(taInfos.success);
-    $('#fail').text(taInfos.fail);
-    $('#total').text(taInfos.success + taInfos.fail);
-    $('#record').text(taInfos.record);
-}
-
-function start() {
-    if (!json)
-        $.getJSON(window.location.origin + "/data/" + idList, function (data) {
-            json = data;
-            $('#listInfos').text(json.infos.nom + " (" + json.infos.lettres + ")");
-
-            countDown(3);
-        });
-    else
-        selectMot();
-
-    $("#inputText").focus();
-}
-
-function selectMot() {
-    if (idQuestion < json.infos.min || idQuestion > json.infos.max) {
-        if (idQuestion != -1)
-            showToast('Vous avez terminé la liste Retour au début', 1, 2500, null, false);
-
-        changeMot(null);
-        return;
-    }
-
-    trads = json.data[idQuestion];
-    typeQuestion = typeTrad == 2 ? getRandomInt(1) : typeTrad;
-    $('#question').text(trads[typeQuestion]);
+    }, countVal == 0 ? 0 : 400);
 }
 
 function update(element, index, e) {
@@ -98,7 +44,7 @@ function update(element, index, e) {
             return;
 
         ttsWord(json.data[idQuestion][0]);
-        
+
         let value = element.value;
 
         if (value.length == 0)
@@ -114,8 +60,8 @@ function update(element, index, e) {
 
         element.value = '';
         createCookie("taInfos", taInfos);
-        updateStats();
-        changeMot(getNextIDQ(typeList, idQuestion));
+        updateStats(typeExo);
+        changeMot(getNextIDQ(typeList, idQuestion), typeExo);
         element.focus();
     } else if (index == 3)
         redirectBase();
@@ -137,23 +83,6 @@ function verifMot(value) {
     return result;
 }
 
-function changeMot(number) {
-    if (number == null) {
-        if (typeList == 0)
-            do
-                number = getRandomQID(json);
-            while (number == idQuestion)
-        else if (typeList == 1)
-            number = json.infos.min;
-    }
-
-    idQuestion = number;
-
-    console.log("idList", idList, " typeTrad", typeTrad, " idQuestion", idQuestion);
-
-    start();
-}
-
 timer.addEventListener('targetAchieved', function (e) {
     activeElement(false);
     $('#retour').removeAttr('disabled');
@@ -163,10 +92,56 @@ timer.addEventListener('targetAchieved', function (e) {
     if (taInfos.success > taInfos.record) {
         taInfos.record = taInfos.success;
         createCookie("taInfos", taInfos);
-        updateStats();
+        updateStats(typeExo);
     }
 
     taInfos.success = 0;
     taInfos.fail = 0;
     createCookie("taInfos", taInfos);
 });
+
+// https://stackoverflow.com/questions/10473745/compare-strings-javascript-return-of-likely
+
+function isSimilar(s1, s2) {
+    let longer = s1;
+    let shorter = s2;
+
+    if (s1.length < s2.length) {
+        longer = s2;
+        shorter = s1;
+    }
+
+    let longerLength = longer.length;
+
+    if (longerLength == 0)
+        return 1.0;
+
+    return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+}
+
+function editDistance(s1, s2) {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+
+    let costs = new Array();
+    for (let i = 0; i <= s1.length; i++) {
+        let lastValue = i;
+        for (let j = 0; j <= s2.length; j++) {
+            if (i == 0)
+                costs[j] = j;
+            else {
+                if (j > 0) {
+                    let newValue = costs[j - 1];
+                    if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                        newValue = Math.min(Math.min(newValue, lastValue),
+                            costs[j]) + 1;
+                    costs[j - 1] = lastValue;
+                    lastValue = newValue;
+                }
+            }
+        }
+        if (i > 0)
+            costs[s2.length] = lastValue;
+    }
+    return costs[s2.length];
+}

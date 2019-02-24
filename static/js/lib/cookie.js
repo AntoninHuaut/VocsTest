@@ -16,7 +16,7 @@ function basicCookieIsValid(cookie) {
         return false;
 
     cookie = parseObjectFromCookie(cookie);
-    return !(und(cookie.idList) || und(cookie.typeTrad) || und(cookie.typeList) || und(cookie.typeExo));
+    return !(und(cookie.idList) || und(cookie.typeTrad) || und(cookie.typeList) || und(cookie.typeExo) || und(cookie.activeSound));
 }
 
 function createCookie(name, value) {
