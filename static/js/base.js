@@ -29,6 +29,32 @@ function activeElement(b) {
     })
 }
 
+function ttsWord(word) {
+    let synth = window.speechSynthesis;
+    let voices = synth.getVoices();
+
+    if (voices.length == 0) {
+        setTimeout(() => {
+            ttsWord(word);
+        }, 10);
+        
+        return;
+    }
+
+    let voice;
+
+    voices.forEach(get => {
+        if (get.lang == "en-GB")
+            voice = get;
+    });
+
+    let ss = new SpeechSynthesisUtterance(word.replace(/[\(\)]/g, ''));
+    ss.voice = voice;
+    ss.pitch = 1.0;
+    ss.rate = 1.0;
+    synth.speak(ss);
+}
+
 function getRandomQID(json) {
     return Math.floor(Math.random() * (json.infos.max - json.infos.min + 1)) + json.infos.min;
 }
@@ -40,7 +66,6 @@ function getRandomInt(max) {
 function upFL(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
 
 function redirectBase() {
     window.location.assign(window.location.origin);

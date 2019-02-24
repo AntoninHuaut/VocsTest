@@ -97,6 +97,8 @@ function update(element, index, e) {
         if (e.keyCode != 13)
             return;
 
+        ttsWord(json.data[idQuestion][0]);
+        
         let value = element.value;
 
         if (value.length == 0)

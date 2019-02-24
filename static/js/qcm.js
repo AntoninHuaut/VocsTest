@@ -52,7 +52,7 @@ function selectMot() {
     }
 
     trads = json.data[idQuestion];
-    typeQuestion = typeTrad == 2 ? getRandomInt(1) : typeTrad;
+    typeQuestion = typeTrad == 2 ? getRandomInt(2) : typeTrad;
 
     $('#question').text(trads[typeQuestion]);
 
@@ -74,6 +74,9 @@ function update(element, index) {
         redirectBase();
 
     let qcmInfos = parseObjectFromCookie(qcmInfosC);
+
+    if (index == 0 || index == 1)
+        ttsWord(json.data[idQuestion][0]);
 
     if (index == 0) {
         activeElement(false);
