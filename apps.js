@@ -11,15 +11,7 @@ const config = require('./config.json');
     2 FR <=> EN
 */
 
-const con = mysql.createConnection({
-    host: config.sql.host,
-    database: config.sql.database,
-    user: config.sql.user,
-    password: config.sql.password
-});
-
 const app = express();
-
 var words;
 
 app.use(bodyParser.json());
@@ -32,6 +24,13 @@ app.use(function (req, res, next) {
 
 function reloadWords() {
     console.log("[" + new Date().toLocaleString() + "] Updating words");
+
+    let con = mysql.createConnection({
+        host: config.sql.host,
+        database: config.sql.database,
+        user: config.sql.user,
+        password: config.sql.password
+    });
 
     con.connect(function (err) {
         if (err) throw err;
