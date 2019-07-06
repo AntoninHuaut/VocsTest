@@ -1,26 +1,10 @@
-const express = require('express');
 const mysql = require('mysql');
 const CronJob = require('cron').CronJob;
-const bodyParser = require('body-parser');
+const apps = require('../apps');
+const config = require('../config.json');
 
-const config = require('./config.json');
-
-/* typeTrad
-    0 FR ==> EN
-    1 FR <== EN
-    2 FR <=> EN
-*/
-
-const app = express();
-var words;
-
-app.use(bodyParser.json());
-app.use(express.static(__dirname + '/static'));
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+new CronJob('0 0 */1 * * *', reloadWords, null, false, 'Europe/Paris');
+reloadWords();
 
 function reloadWords() {
     console.log("[" + new Date().toLocaleString() + "] Updating words");
@@ -90,7 +74,7 @@ function reloadWords() {
                 }
             });
 
-        words = tempWords;
+        apps.setWords(tempWords);
     });
 }
 
@@ -102,39 +86,3 @@ function initSub(tempWords, index) {
     tempWords[index].infos.min = -1;
     tempWords[index].infos.max = -1;
 }
-
-new CronJob('0 0 */1 * * *', reloadWords, null, false, 'Europe/Paris');
-reloadWords();
-
-app.use('/data/:idList?', function (req, res, next) {
-    if (!words) {
-        res.send('{"error": "words not loaded"}');
-        return;
-    }
-
-    let idList = req.params.idList;
-
-    if (!idList) {
-        res.send('{"error": "idList is undefined"}');
-        return;
-    } else if (!words[idList]) {
-        res.send('{"error": "' + idList + ' does not exist"}');
-        return;
-    }
-
-    res.send(words[idList]);
-});
-
-app.use('/qcm', function (req, res, next) {
-    res.sendFile(__dirname + '/static/qcm.html');
-});
-
-app.use('/ta', function (req, res, next) {
-    res.sendFile(__dirname + '/static/ta.html');
-});
-
-app.use('/', function (req, res) {
-    res.sendFile(__dirname + '/static/select.html');
-});
-
-app.listen(config.port);

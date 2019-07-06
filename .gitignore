@@ -1,7 +1,7 @@
 .vscode/
 SQL/*
 node_modules/
-config.json
+apps/config.json
 package-lock.json
 
 

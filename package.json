@@ -1,13 +1,13 @@
 {
-  "name": "VocsTest",
+  "name": "vocstest",
   "version": "1.0.0",
   "description": "VocsTest",
-  "main": "apps.js",
+  "main": "apps/apps.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "node apps.js"
+    "start": "node apps/apps.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
