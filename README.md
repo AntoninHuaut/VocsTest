@@ -1,11 +1,11 @@
 # VocsTest
-A Node.js app using [Express 4](http://expressjs.com/), [MySQL 2](https://github.com/mysqljs/mysql).
+A Node.js app using [Express 4](http://expressjs.com/), [MySQL 2](https://www.npmjs.com/package/mysql2).
 
 ## Getting Started
 This application was created to make it easier to learn vocabulary words between French and English from my classes *(It is only available in French)*  
 It allows you to train in Multiple-Choice Questionnaire as well as in time attack  
 
-[*Application demo*](http://trad.maner.fr/ "Application demo")
+[*Application demo*](https://trad.maner.fr/ "Application demo")
 
 ## Running Locally
 > You must set up a database *(SQL/DB.sql to import the data)*  
